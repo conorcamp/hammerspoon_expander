@@ -29,7 +29,7 @@ function TrieNode:set_word(word)
 end
 
 function TrieNode:get_child(char)
-    if self.is_word then
+    if self.has_children then
         return self.children[char]
     end
 end
@@ -69,7 +69,7 @@ function Trie:add_word(word)
     Trie.add_node(word, 2, current_node, string.len(word))
 end
 
-function Trie:_get_node(word)
+function Trie:get_node(word)
     local current_node = nil
 
     for i = 1, string.len(word) do
@@ -85,7 +85,7 @@ function Trie:_get_node(word)
 end
 
 function Trie:is_word(word)
-    local node = self:_get_node(word)
+    local node = self:get_node(word)
 
     if node then
         return node.is_word
@@ -95,11 +95,9 @@ function Trie:is_word(word)
 end
 
 function Trie:is_prefix(word)
-    local node = self:_get_node(word)
+    local node = self:get_node(word)
 
     if node then
-        print(node)
-        print(node.char)
         return node.has_children
     else
         return false
